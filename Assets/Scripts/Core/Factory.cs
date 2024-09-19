@@ -15,7 +15,7 @@ public class Factory : Singleton<Factory>
         }
     }
 
-    public Slime GetSlime(Vector3? position)
+    public Slime GetSlime(Vector3 position)
     {
         return slime.GetObject(position);
     }

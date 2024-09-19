@@ -65,7 +65,7 @@ Material:
     - _OutlineMax: 0.01
     - _OutlineMin: 0
     - _OutlineRatio: 0.5
-    - _OutlineThickness: 0.6
+    - _OutlineThickness: 0
     - _PhaseRSplit: 0
     - _PhaseRThickness: 0
     - _PhaseSplit: 0
