@@ -22,13 +22,13 @@ public class Test09_AStar_Gridmap : TestBase
         
         node = map.GetNode(map.IndexToGrid(24));
         node.nodeType = Node.NodeType.Wall;
-        
+
         node = map.GetNode(map.IndexToGrid(31));
         node.nodeType = Node.NodeType.Wall;
-        
+
         node = map.GetNode(map.IndexToGrid(37));
         node.nodeType = Node.NodeType.Wall;
-        
+
         node = map.GetNode(map.IndexToGrid(38));
         node.nodeType = Node.NodeType.Wall;
 

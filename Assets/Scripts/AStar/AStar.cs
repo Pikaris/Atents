@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public static class AStar
@@ -16,6 +17,7 @@ public static class AStar
     //const float diagonalDistance = 1.414213f;
     const float diagonalDistance = 14.0f;
 
+
     /// <summary>
     /// 경로를 찾아주는 함수
     /// </summary>
@@ -27,8 +29,47 @@ public static class AStar
     {
         List<Vector2Int> path = null;
 
-        Vector2Int[] openLists;
-        Vector2Int[] closeLists;
+        Vector2Int current;
+
+        Node node;
+
+        var openLists = new List<Vector2Int>();
+        var closeLists = new List<Vector2Int>();
+
+        openLists.Add(start);
+
+        current = start;
+
+        openLists.Add(start);
+
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                if (map.IsValidPosition(current.x + (int)(x * sideDistance), current.y + (int)(y * sideDistance)))
+                {
+                    if (map.IsWall(current.x + (int)(x * sideDistance), current.y + (int)(y * sideDistance)))
+                    {
+                        continue;
+                    }
+
+                    if (x == 0 && y == 0)
+                    {
+                        continue;
+                    }
+
+                    node = map.GetNode(current.x + (int)(x * sideDistance), current.y + (int)(y * sideDistance));
+
+                    node.H = GetHeuristic(node, end);
+                    //node.G = 
+
+                    //openLists.Add(new Vector2Int(current.x + (int)(x * sideDistance), current.y + (int)(y * sideDistance)));
+
+                }
+            }
+        }
+
+        //closeLists.Add(start);
 
         return path;
     }
@@ -41,7 +82,7 @@ public static class AStar
     /// <returns>예상 거리</returns>
     private static float GetHeuristic(Node current, Vector2Int end)
     {
-        //current.H = 
-        return 0;
+        current.H = (end.x - current.X) + (end.y - current.Y);
+        return current.H;
     }
 }

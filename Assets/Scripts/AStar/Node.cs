@@ -43,7 +43,7 @@ public class Node : IComparable<Node>
     }
 
     /// <summary>
-    /// 이 노드의 중류
+    /// 이 노드의 종류
     /// </summary>
     public NodeType nodeType = NodeType.Plain;
 
