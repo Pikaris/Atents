@@ -22,6 +22,12 @@ public class GridMap
     protected int height;
 
     /// <summary>
+    /// 상속받은 클래스에서 public GridMap(int width, int height) 생성자를 안 만들어도 되게끔 하기 위한 생성자
+    /// </summary>
+    protected GridMap()
+    { }
+
+    /// <summary>
     /// 생성자
     /// </summary>
     /// <param name="width">맵의 가로 길이</param>
@@ -37,7 +43,7 @@ public class GridMap
         {
             for(int x = 0; x < width; x++)
             {
-                nodes[y * width + x] = new Node(x, y);
+                nodes[CalcIndex(x,y)] = new Node(x, y);
             }
         }
     }
@@ -110,7 +116,7 @@ public class GridMap
     public bool IsWall(int x, int y)
     {
         Node node = GetNode(x, y);
-        return node != null && node.nodeType == Node.NodeType.Plain;
+        return node != null && node.nodeType == Node.NodeType.Wall;
     }
 
     /// <summary>
@@ -132,7 +138,7 @@ public class GridMap
     public bool IsSlime(int x, int y)
     {
         Node node = GetNode(x, y);
-        return node != null && node.nodeType == Node.NodeType.Plain;
+        return node != null && node.nodeType == Node.NodeType.Slime;
     }
 
     /// <summary>
@@ -167,6 +173,17 @@ public class GridMap
     }
 
     /// <summary>
+    /// 테스트용 GridToIndex
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <returns></returns>
+    public int GridToIndex(Vector2Int grid)
+    {
+        GridToIndex(grid.x, grid.y, out int? index);
+        return index.Value;
+    }
+
+    /// <summary>
     /// 인덱스 값을 그리드 좌표로 변경해주는 함수
     /// </summary>
     /// <param name="index">변경할 인덱스</param>
@@ -182,7 +199,7 @@ public class GridMap
     /// <param name="x">x좌표</param>
     /// <param name="y">y좌표</param>
     /// <returns>계산된 인덱스</returns>
-    protected virtual int CalcIndex(int x, int y)
+    public virtual int CalcIndex(int x, int y)
     {
         return x + y * width;
     }
@@ -196,5 +213,15 @@ public class GridMap
     public virtual bool IsValidPosition(int x, int y)
     {
         return x < width && y < height && x > -1 && y > -1;
+    }
+
+    /// <summary>
+    /// 맵 안인지 확인하는 함수
+    /// </summary>
+    /// <param name="grid">위치</param>
+    /// <returns>true면 맵 안, false면 맵 안</returns>
+    public bool IsValidPosition(Vector2Int grid)
+    {
+        return IsValidPosition(grid.x, grid.y);
     }
 }
