@@ -54,7 +54,6 @@ public class Test10_AStart_TileGridmap : TestBase
             PrintList(path);
             pathLine.DrawPath(tileGridMap, path);
         }
-
     }
 
     /// <summary>
