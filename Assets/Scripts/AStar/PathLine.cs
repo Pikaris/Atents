@@ -8,6 +8,8 @@ public class PathLine : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.startColor = new(Random.value, Random.value, Random.value);
+
     }
 
     /// <summary>

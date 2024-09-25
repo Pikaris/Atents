@@ -73,7 +73,16 @@ public class Spawner : MonoBehaviour
         {
             Slime slime = Factory.Instance.GetSlime(spawnPosition);
             slime.Initialize(mapArea.GridMap, spawnPosition);
-            count++;
+            slime.transform.SetParent(transform);
+            slime.onDie += () =>
+            {
+                count--;        // 슬라임이 죽었을 때 count감소
+            };
+            count++;            // 생성했으니 count 증가
+
+            // 1. 중간에 count가 capacity 이하로 내려가면 다시 스폰을 시작한다.
+            // 2. 슬라임이 스폰될 때 슬라임의 부모가 스폰한 스포너로 변경된다.
+            // 3. 슬라임이 디스폰될 때 다시 풀을 슬라임의 부모로 설정한다.
         }
     }
 
