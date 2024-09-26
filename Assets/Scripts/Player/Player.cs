@@ -56,6 +56,8 @@ public class Player : MonoBehaviour
     // 인풋 액션
     PlayerInputActions inputActions;
 
+    SubmapManager submapManager;
+
     // 필요 컴퍼넌트들
     Rigidbody2D rigid;
     Animator animator;
@@ -115,6 +117,11 @@ public class Player : MonoBehaviour
         inputActions.Player.Disable();
     }
 
+    private void Start()
+    {
+        submapManager = FindAnyObjectByType<SubmapManager>();
+    }
+
     private void OnMove(InputAction.CallbackContext context)
     {
         inputDirection = context.ReadValue<Vector2>();          // 입력 받은 방향 저장
@@ -154,6 +161,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         rigid.MovePosition(rigid.position + inputDirection * Time.fixedDeltaTime * currentSpeed);
+        //좀 무식
+        //submapManager.RefreshScenes(submapManager.WorldToGrid(rigid.position).x, submapManager.WorldToGrid(rigid.position).y);
     }
 
     /// <summary>
