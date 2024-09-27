@@ -95,6 +95,11 @@ public class SubmapManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 플레이어가 있는 서브맵 그리드 좌표
+    /// </summary>
+    Vector2Int playerGrid = Vector2Int.zero;
+
+    /// <summary>
     /// 처음 생성되었을 때 한번만 실행되는 함수
     /// </summary>
     public void PreInitialize()
@@ -115,7 +120,7 @@ public class SubmapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 씬이 Single모드로 로드될 때마다 호출될 초기화 함수
+    /// 씬이 Single모드로 로드될 때마다 호출될 초기화 함수(플레이어 필요)
     /// </summary>
     public void Initialize()
     {
@@ -125,6 +130,37 @@ public class SubmapManager : MonoBehaviour
         }
 
         // 플레이어 관련 초기화
+        Player player = GameManager.Instance.Player;
+        if (player != null)
+        {
+            // 플레이어가 이동 할 때의 처리
+            player.onMove += (world) =>
+            {
+                Vector2Int grid = WorldToGrid(world);
+                if (grid != playerGrid)                 // 이동 결과 그리드가 변경되었으면
+                {
+                    RefreshScenes(grid.x, grid.y);      // 씬 갱신
+                    playerGrid = grid;
+                }
+            };
+
+            // 플레이어가 사망했을 때의 처리(모든 서브맵 로딩 해제)
+            player.onDie += () =>
+            {
+                for (int y = 0; y < HeightCount; y++)
+                {
+                    for (int x = 0; x < WidthCount; x++)
+                    {
+                        RequestAsyncSceneUnload(x, y);
+                    }
+                }
+            };
+
+            // 플레이어 주변 맵 로딩요청
+            playerGrid = WorldToGrid(player.transform.position);    // 플레이어 서브맵 그리드 위치 구하고
+            RequestAsyncSceneLoad(playerGrid.x, playerGrid.y);      // 플레이어가 있는 서브맵을 최우선으로 요청
+            RefreshScenes(playerGrid.x, playerGrid.y);              // 주변맵 포함해서 전부 요청
+        }
     }
 
     /// <summary>

@@ -26,6 +26,6 @@ public class GameManager : Singleton<GameManager>
     {
         player = FindAnyObjectByType<Player>();
 
-        submapManager.Initialize();
+        submapManager.Initialize();     // 플레이어를 찾은 이후에 실행되어야 한다
     }
 }

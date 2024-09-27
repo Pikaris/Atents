@@ -39,6 +39,11 @@ public class Slime : RecycleObject
     public float VisiblePhaseThickness = 0.1f;
 
     /// <summary>
+    /// 슬라임이 제공하는 수명 보너스
+    /// </summary>
+    public float lifeTimeBonus = 2.0f;
+
+    /// <summary>
     /// 슬라임이 움직일 그리드 맵
     /// </summary>
     TileGridMap map;
@@ -110,6 +115,11 @@ public class Slime : RecycleObject
             }
         }
     }
+
+    /// <summary>
+    /// 슬라임이 죽을 때 플레이어에게 주는 수명 보너스 확인용 프로퍼티
+    /// </summary>
+    public float LifeTimeBonus => lifeTimeBonus;
 
     /// <summary>
     /// 슬라임이 죽었음을 알리는 델리게이트
