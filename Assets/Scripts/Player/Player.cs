@@ -59,12 +59,18 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 플레이어가 살아있는지 표시하는 변수(true면 살아있다, false면 죽었다)
     /// </summary>
-    bool isAlive = false;
+    bool isAlive = true;
 
     /// <summary>
     /// 플레이어가 죽인 슬라임의 수
     /// </summary>
     int killCount = -1;
+
+    /// <summary>
+    /// 전체 플레이 시간
+    /// </summary>
+    float totalPlayTime = 0.0f;
+
 
     /// <summary>
     /// 플레이어의 최대 수명을 확인하기 위한 프로퍼티
@@ -104,6 +110,11 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 전체 플레이 시간을 확인하기 위한 프로퍼티
+    /// </summary>
+    public float TotalPlayTime => totalPlayTime;
 
     /// <summary>
     /// 플레이어의 수명이 변경되었을 때 실행될 델리게이트(float : 현재 수명 / 최대 수명)
@@ -160,6 +171,7 @@ public class Player : MonoBehaviour
             if(isAttackValid)
             {
                 slime.Die();                    // 공격이 유효할 때 영역안에 들어오면 즉시 사망
+                EnemyKill(slime.LifeTimeBonus);
             }
             else
             {
@@ -207,6 +219,10 @@ public class Player : MonoBehaviour
     {
         attackCoolTime -= Time.deltaTime;
         LifeTime -= Time.deltaTime;
+        if (isAlive)
+        {
+            totalPlayTime += Time.deltaTime;
+        }
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -312,7 +328,7 @@ public class Player : MonoBehaviour
     private void Die()
     {
         isAlive = false;                // 죽었다고 표시
-        LifeTime = 0;                   // 수명도 0으로 설정
+        LifeTime = 0.0f;                // 수명도 0으로 설정
         onLifeTimeChange?.Invoke(0);    // 수명 변화 알리기
         inputActions.Player.Disable();  // 입력 막기
         onDie?.Invoke();                // 죽었다고 알리기

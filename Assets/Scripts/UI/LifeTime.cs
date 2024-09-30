@@ -31,7 +31,7 @@ public class LifeTime : MonoBehaviour
         Player player = GameManager.Instance.Player;
 
         player.onLifeTimeChange += OnLifeTimeChange;
-        maxLifeTime = player.maxLifeTime;
+        maxLifeTime = player.MaxLifeTime;
 
         OnLifeTimeChange(1);    // 첫 초기화
     }
